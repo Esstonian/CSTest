@@ -1,0 +1,20 @@
+﻿@model ForecastModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Forecast</h4>
+@{ if(Model.consuption != null)
+    for(int i = 0; i < Model.consuption.Length; i++) {
+        if(i != Model.consuption.Length - 1) {
+            <div>
+                <p>@Model.consuption[i]</p>
+            </div>
+        } else {
+            <p></p>
+            <h5>@Model.date.ToShortDateString()</h5>
+            <h4>@Model.forecast</h4>
+        }
+    };
+}
+

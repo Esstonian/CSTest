@@ -1,0 +1,67 @@
+﻿@using CSTest.Models
+@model IEnumerable<AllData>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(a => a.id).ToList());
+    var YHLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(a => a.consumptionHouse).ToList());
+    var YPLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(a => a.consumptionPlant).ToList());
+}
+
+<body>
+
+    <script src="~/js/Chart.bundle.js"></script>
+    <script src="~/js/Chart.bundle.min.js"></script>
+    <script src="~/js/Chart.js"></script>
+    <script src="~/js/Chart.min.js"></script>
+
+    <div class="content">
+        <div class="wrapper">
+            <canvas id="allDataChart" width="400" height="200"></canvas>
+        </div>
+        <div class="toolbar">
+            
+        </div>
+        <div id="chart-analyser" class="analyser"></div>
+    </div>
+
+    <script>
+            var ctx = document.getElementById('allDataChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @XLabels,
+                    datasets: [{
+                        label: '# Houses consuption',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        data: @YHLabels,
+                        borderWidth: 1
+                    },
+                        {
+                            label: '# Plants consuption',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            data: @YPLabels,
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                     elements: {
+                        line: {
+                        tension: 0
+                        }
+                    }
+                }
+            });
+    </script>
+</body>
